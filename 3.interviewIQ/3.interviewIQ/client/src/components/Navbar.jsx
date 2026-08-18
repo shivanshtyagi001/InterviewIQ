@@ -78,7 +78,7 @@ function Navbar() {
                         setShowUserPopup(!showUserPopup);
                         setShowCreditPopup(false)
                     }} className='w-9 h-9 bg-black text-white rounded-full flex items-center justify-center font-semibold'>
-                        {userData ? userData?.name.slice(0,1).toUpperCase() : <FaUserAstronaut size={16}/>}
+                       {userData?.name ? userData.name.slice(0,1).toUpperCase() : <FaUserAstronaut size={16}/>}
                         
                     </button>
 
