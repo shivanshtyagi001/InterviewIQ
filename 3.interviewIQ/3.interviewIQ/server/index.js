@@ -13,16 +13,42 @@ dotenv.config();
 
 const app = express();
 
+const FRONTEND_URL = "https://interviewiq-dmoc.onrender.com";
+
 // ==================== CORS ====================
 
 const corsOptions = {
-    origin: "https://interviewiq-dmoc.onrender.com",
+    origin: FRONTEND_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
+
+// Explicitly handle preflight requests
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+
+    if (origin === FRONTEND_URL) {
+        res.header("Access-Control-Allow-Origin", origin);
+        res.header("Access-Control-Allow-Credentials", "true");
+        res.header(
+            "Access-Control-Allow-Methods",
+            "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+        );
+        res.header(
+            "Access-Control-Allow-Headers",
+            "Content-Type, Authorization"
+        );
+    }
+
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(204);
+    }
+
+    next();
+});
 
 // ==================== MIDDLEWARE ====================
 
