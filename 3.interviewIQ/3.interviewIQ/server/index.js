@@ -13,6 +13,9 @@ dotenv.config();
 
 const app = express();
 
+
+// ================= CORS =================
+
 const corsOptions = {
     origin: "https://interviewiq-dmoc.onrender.com",
     credentials: true,
@@ -21,15 +24,26 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+// Handle preflight requests
 app.options(/.*/, cors(corsOptions));
+
+
+// ================= MIDDLEWARE =================
 
 app.use(express.json());
 app.use(cookieParser());
+
+
+// ================= ROUTES =================
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/interview", interviewRouter);
 app.use("/api/payment", paymentRouter);
+
+
+// ================= SERVER =================
 
 const PORT = process.env.PORT || 6000;
 
